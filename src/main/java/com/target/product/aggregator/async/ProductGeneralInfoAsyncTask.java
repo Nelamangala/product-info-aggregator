@@ -1,23 +1,24 @@
-package com.target.product.aggregator.service;
+package com.target.product.aggregator.async;
 
 import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.target.product.aggregator.services.ProductGeneralInfoService;
 
-public class ProductGeneralInfoService implements Callable<String>{
-	private final RestTemplate productInfoService;
+public class ProductGeneralInfoAsyncTask implements Callable<String>{
+	@Autowired
+	private ProductGeneralInfoService productInfoService;
 	private String productId;
-	private static final Logger logger = LoggerFactory.getLogger(ProductGeneralInfoService.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProductGeneralInfoAsyncTask.class);
 	
-	public ProductGeneralInfoService(RestTemplate restTemplate, String productId) {
-		this.productInfoService = restTemplate;
+	
+	public ProductGeneralInfoAsyncTask(String productId) {
 		this.productId = productId;
 	}
 	
@@ -26,7 +27,7 @@ public class ProductGeneralInfoService implements Callable<String>{
 	public String call() throws Exception {
 		String productInfoStr = null;
 		try {
-			productInfoStr = productInfoService.getForObject("http://redsky.target.com/v2/pdp/tcin/" + productId + "?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics", String.class);	
+			productInfoStr = productInfoService.getProductName(productId);	
 		}catch(RestClientException restException) {
 			logger.error("Failed to retrieve product price information for productId:" + productId);
 		}

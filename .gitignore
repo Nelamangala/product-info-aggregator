@@ -1,0 +1,10 @@
+*.class
+.settings/
+target/classes/META-INF/MANIFEST.MF
+*.lst
+target/classes/
+target/maven-archiver/pom.properties
+target/product-info-aggregator-0.0.1-SNAPSHOT.jar
+target/product-info-aggregator-0.0.1-SNAPSHOT.jar.original
+target/surefire-reports/TEST-com.target.product.aggregator.ProductInfoAggreatorApplicationTests.xml
+target/surefire-reports/com.target.product.aggregator.ProductInfoAggreatorApplicationTests.txt
