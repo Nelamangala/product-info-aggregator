@@ -41,7 +41,7 @@ public class ProductInfoAggregatorController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ApiOperation(value = "Returns aggregated product information from multiple sources", response = ProductAggregatorServiceResponse.class)
 	@Produces({"application/json"})
-	public ResponseEntity<ProductAggregatorServiceResponse> getProduct(@PathVariable String id) {
+	public ResponseEntity<?> getProduct(@PathVariable String id) {
 		logger.info("Getting aggregated product information for id: " + id);
 		ProductAggregatorServiceResponse aggregatedProductInfo = productAggregatorService.getProductInfoAsync(id);
 		return new ResponseEntity<ProductAggregatorServiceResponse>(aggregatedProductInfo, HttpStatus.OK);
