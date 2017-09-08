@@ -15,8 +15,8 @@ public class SwaggerConfig {
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .select().apis(RequestHandlerSelectors.basePackage("org.target.product.price.api"))
-                .paths(regex("/product-price.*"))
+                .select().apis(RequestHandlerSelectors.basePackage("com.target.product.aggregator"))
+                .paths(regex("/products.*"))
                 .build();
              
     }

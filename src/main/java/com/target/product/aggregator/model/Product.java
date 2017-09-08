@@ -1,10 +1,15 @@
 package com.target.product.aggregator.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel
 public class Product {
 	private String id;
 	private String name;
 	private Price currentPrice;
 
+	@ApiModelProperty(position = 1, required = true, value = "Product identifier")
 	public String getId() {
 		return id;
 	}
