@@ -1,6 +1,10 @@
 package com.target.product.aggregator.model;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+
 public class Price {
+	@DecimalMax("10000000000.0") @DecimalMin("0.0")
 	private Double value;
 	private String currency_code;
 	
