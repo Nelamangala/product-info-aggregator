@@ -5,9 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.target.product.price.domain.ProductPrice;
 
 import com.target.product.aggregator.model.Product;
-import com.target.product.aggregator.model.ProductPrice;
+
 
 @Service
 public class ProductPriceService {
@@ -26,8 +27,9 @@ public class ProductPriceService {
 	}
 	
 	public void updateProductPrice(Product product)  {
+		ProductPrice productPrice = new ProductPrice(product.getId(), product.getCurrentPrice().getValue(), product.getCurrentPrice().getCurrency_code());
 		try {
-			productPriceService.put("https://target-product-pricing.cfapps.io/product-price/" + product.getId(), product);	
+			productPriceService.put("https://target-product-pricing.cfapps.io/product-price", productPrice);	
 		}catch(RestClientException restException) {
 			logger.error("Failed to update product price information for productId:" + product.getId());
 		}

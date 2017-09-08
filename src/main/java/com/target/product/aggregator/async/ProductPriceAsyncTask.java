@@ -5,7 +5,8 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClientException;
-import com.target.product.aggregator.model.ProductPrice;
+import org.target.product.price.domain.ProductPrice;
+
 import com.target.product.aggregator.services.ProductPriceService;
 
 

@@ -39,10 +39,10 @@ public class ProductInfoAggregatorController {
 		return new ResponseEntity<ProductAggregatorServiceResponse>(aggregatedProductInfo, HttpStatus.OK);
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<?> updateProductPrice(@RequestBody @Valid Product product) {
-        logger.info("Request to update price for product with id: " + product.getId());
-        ProductAggregatorServiceResponse aggregatedProductInfo = productAggregatorService.getProductInfoAsync(product.getId());
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateProductPrice(@PathVariable String id, @RequestBody @Valid Product product) {
+        logger.info("Request to update price for product with id: " + id);
+        ProductAggregatorServiceResponse aggregatedProductInfo = productAggregatorService.getProductInfoAsync(id);
         
         // If price input price is different from currently existing price, update the price and get info again
         if(product.getCurrentPrice() != null && !product.getCurrentPrice().equals(aggregatedProductInfo.getProduct().getCurrentPrice())) {

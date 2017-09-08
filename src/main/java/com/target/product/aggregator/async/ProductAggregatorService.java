@@ -13,9 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.target.product.price.domain.ProductPrice;
+
 import com.target.product.aggregator.model.Price;
 import com.target.product.aggregator.model.Product;
-import com.target.product.aggregator.model.ProductPrice;
 import com.target.product.aggregator.services.ProductGeneralInfoService;
 import com.target.product.aggregator.services.ProductPriceService;
 
@@ -44,7 +45,7 @@ public class ProductAggregatorService {
 		StringBuilder error = new StringBuilder();
 		try {
 			ProductPrice productPrice = productPriceFuture.get(productPriceApiTimeout, TimeUnit.MILLISECONDS);
-			product.setCurrentPrice(new Price(productPrice.getPrice(), productPrice.getCurrency()));
+			product.setCurrentPrice(productPrice == null ? null : new Price(productPrice.getPrice(), productPrice.getCurrency()));
 		} catch (InterruptedException e) {
 			error.append("Product price lookup async was interrupted : " + e.getMessage());
 		} catch (ExecutionException e) {
