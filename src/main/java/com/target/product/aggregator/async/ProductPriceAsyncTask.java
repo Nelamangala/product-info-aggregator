@@ -4,20 +4,20 @@ import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestClientException;
 import com.target.product.aggregator.model.ProductPrice;
 import com.target.product.aggregator.services.ProductPriceService;
 
 
 public class ProductPriceAsyncTask implements Callable<ProductPrice>{
-	@Autowired
+
 	private ProductPriceService productPriceService;
 	private String productId;
 	private static final Logger logger = LoggerFactory.getLogger(ProductPriceAsyncTask.class);
 	
 	
-	public ProductPriceAsyncTask(String productId) {
+	public ProductPriceAsyncTask(ProductPriceService productPriceService, String productId) {
+		this.productPriceService = productPriceService;
 		this.productId = productId;
 	}
 

@@ -1,19 +1,21 @@
 package com.target.product.aggregator.services;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ProductGeneralInfoService {
 	private final RestTemplate productInfoService = new RestTemplate();
 	private static final Logger logger = LoggerFactory.getLogger(ProductGeneralInfoService.class);
+	private final ObjectMapper mapper = new ObjectMapper();
 	
 
 	public String getProductName(String productId) throws Exception {
@@ -34,20 +36,20 @@ public class ProductGeneralInfoService {
 			return productName;
 		}
 		try {
-			JsonObject jsonObject = new Gson().fromJson(productInfoStr, JsonObject.class);
-			if(jsonObject.has("product") ) {
-				jsonObject = jsonObject.getAsJsonObject("product");
-				if(jsonObject.has("item")) {
-					jsonObject = jsonObject.getAsJsonObject("item");
-					if(jsonObject.has("product_description")) {
-						jsonObject = jsonObject.getAsJsonObject("product_description");
-						if(jsonObject.has("title")) {
-							productName = jsonObject.get("title").getAsString();
+			JsonNode readTree2 = mapper.readTree(productInfoStr);
+			if(readTree2.has("product") ) {
+				readTree2 = readTree2.get("product");
+				if(readTree2.has("item")) {
+					readTree2 = readTree2.get("item");
+					if(readTree2.has("product_description")) {
+						readTree2 = readTree2.get("product_description");
+						if(readTree2.has("title")) {
+							productName = readTree2.get("title").asText();
 						}
 					}
 				}
 			}
-		} catch (JsonSyntaxException e) {
+		} catch ( IOException e) {
 			logger.error("Error parsing product name from JSON response");
 			e.printStackTrace();
 		}

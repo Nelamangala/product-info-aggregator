@@ -9,14 +9,15 @@ import java.util.concurrent.TimeoutException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import com.target.product.aggregator.model.Price;
 import com.target.product.aggregator.model.Product;
 import com.target.product.aggregator.model.ProductPrice;
+import com.target.product.aggregator.services.ProductGeneralInfoService;
+import com.target.product.aggregator.services.ProductPriceService;
 
 @Service
 @PropertySource("classpath:config.properties")
@@ -27,12 +28,17 @@ public class ProductAggregatorService {
 	@Value( "${product.name.api.timeout}" )
 	private int productNameApiTimeout;
 	
+	@Autowired
+	private ProductPriceService productPriceService;
+	@Autowired
+	private ProductGeneralInfoService productGeneralInfoService;
+	
 	private ExecutorService executor = Executors.newFixedThreadPool(2);
 	private static final Logger logger = LoggerFactory.getLogger(ProductAggregatorService.class);
 	
 	public ProductAggregatorServiceResponse getProductInfoAsync(String productId) {
-		Future<ProductPrice> productPriceFuture = executor.submit(new ProductPriceAsyncTask(productId));
-		Future<String> productNameFuture = executor.submit(new ProductGeneralInfoAsyncTask(productId));
+		Future<ProductPrice> productPriceFuture = executor.submit(new ProductPriceAsyncTask(productPriceService, productId));
+		Future<String> productNameFuture = executor.submit(new ProductGeneralInfoAsyncTask(productGeneralInfoService, productId));
 		Product product = new Product();
 		product.setId(productId);
 		StringBuilder error = new StringBuilder();

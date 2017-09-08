@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.target.product.aggregator.async.ProductAggregatorService;
 import com.target.product.aggregator.async.ProductAggregatorService.ProductAggregatorServiceResponse;
-import com.target.product.aggregator.model.Price;
 import com.target.product.aggregator.model.Product;
-import com.target.product.aggregator.model.ProductPrice;
 import com.target.product.aggregator.services.ProductPriceService;
 
 @RestController
