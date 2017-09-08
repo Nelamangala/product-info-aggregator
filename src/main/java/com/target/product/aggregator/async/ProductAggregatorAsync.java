@@ -22,7 +22,7 @@ import com.target.product.aggregator.services.ProductPriceService;
 
 @Service
 @PropertySource("classpath:config.properties")
-public class ProductAggregatorService {
+public class ProductAggregatorAsync {
 	@Value( "${product.price.api.timeout}" )
 	private int productPriceApiTimeout;
 	
@@ -35,7 +35,7 @@ public class ProductAggregatorService {
 	private ProductGeneralInfoService productGeneralInfoService;
 	
 	private ExecutorService executor = Executors.newFixedThreadPool(2);
-	private static final Logger logger = LoggerFactory.getLogger(ProductAggregatorService.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProductAggregatorAsync.class);
 	
 	public ProductAggregatorServiceResponse getProductInfoAsync(String productId) {
 		Future<ProductPrice> productPriceFuture = executor.submit(new ProductPriceAsyncTask(productPriceService, productId));

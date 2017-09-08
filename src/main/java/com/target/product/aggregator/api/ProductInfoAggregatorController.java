@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.target.product.aggregator.async.ProductAggregatorService;
-import com.target.product.aggregator.async.ProductAggregatorService.ProductAggregatorServiceResponse;
+import com.target.product.aggregator.async.ProductAggregatorAsync;
+import com.target.product.aggregator.async.ProductAggregatorAsync.ProductAggregatorServiceResponse;
 import com.target.product.aggregator.model.Product;
 import com.target.product.aggregator.services.ProductPriceService;
 
@@ -29,11 +29,11 @@ public class ProductInfoAggregatorController {
 
 	private static final double MAX_ALLOWED_PRICE = 100000;
 	private static final Logger logger = LoggerFactory.getLogger(ProductInfoAggregatorController.class);
-	private ProductAggregatorService productAggregatorService;
+	private ProductAggregatorAsync productAggregatorService;
 	private ProductPriceService productPriceService;
 	
 	@Autowired
-	public ProductInfoAggregatorController(ProductAggregatorService productAggregatorService, ProductPriceService productPriceService) {
+	public ProductInfoAggregatorController(ProductAggregatorAsync productAggregatorService, ProductPriceService productPriceService) {
 		this.productAggregatorService = productAggregatorService;
 		this.productPriceService = productPriceService;
 	}
